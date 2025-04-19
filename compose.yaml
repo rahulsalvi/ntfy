@@ -11,7 +11,6 @@ services:
     hostname: proxy_target
     command:
       - serve
-    user: 1000:1000
     volumes:
       - ntfy_cache:/var/cache/ntfy
     environment:
