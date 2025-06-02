@@ -1,21 +1,19 @@
 name: ntfy
 
 include:
-  - path:
-      - ext/docker-compose-snippets/caddy.yaml
-      - ext/docker-compose-snippets/reverse_proxy_override.yaml
+  - ext/docker-compose-snippets/tailscale-caddy.yaml
+  - ext/docker-compose-snippets/simple-reverse-proxy.yaml
 
 services:
   ntfy:
-    image: binwiederhier/ntfy
-    hostname: proxy_target
+    image: binwiederhier/ntfy:latest
     command:
       - serve
     volumes:
       - ntfy_cache:/var/cache/ntfy
     environment:
       NTFY_BASE_URL: https://ntfy.ipn.rahulsalvi.com
-      NTFY_LISTEN_HTTP: ":8080"
+      NTFY_LISTEN_HTTP: "127.0.0.1:8080"
       NTFY_CACHE_FILE: /var/cache/ntfy/cache.db
       NTFY_BEHIND_PROXY: true
       NTFY_ATTACHMENT_CACHE_DIR: /var/cache/ntfy/attachments
@@ -30,6 +28,9 @@ services:
       retries: 3
       start_period: 40s
     restart: unless-stopped
+    extends:
+      file: ext/docker-compose-snippets/tailscale-app-base.yaml
+      service: tailscale-app-base
 
 volumes:
   ntfy_cache:
