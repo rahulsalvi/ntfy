@@ -17,7 +17,7 @@ services:
       NTFY_CACHE_FILE: /var/cache/ntfy/cache.db
       NTFY_BEHIND_PROXY: true
       NTFY_ATTACHMENT_CACHE_DIR: /var/cache/ntfy/attachments
-    healthcheck: # optional: remember to adapt the host:port to your environment
+    healthcheck:
       test:
         [
           "CMD-SHELL",
